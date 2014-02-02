@@ -27,7 +27,6 @@
     "mocha": "~1.17.1"
   },
   "dependencies": {
-    "mache": "0.0.2",
     "ls-archive": "~0.10.0"
   }
 }
