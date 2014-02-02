@@ -1,4 +1,4 @@
 jarfile
 =======
 
-A Node.js module for reading jar file manifests.
+A Node.js module for getting information about a jar file.

@@ -1,0 +1,29 @@
+{
+  "name": "jarfile",
+  "version": "0.0.0",
+  "description": "Get information about a jar file.",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DesertNet/jarfile.git"
+  },
+  "keywords": [
+    "jar",
+    "jarfile",
+    "java",
+    "jvm",
+    "unjar"
+  ],
+  "author": "Eric McCarthy <eric@limulus.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DesertNet/jarfile/issues"
+  },
+  "homepage": "https://github.com/DesertNet/jarfile",
+  "devDependencies": {
+    "mocha": "~1.17.1"
+  }
+}
