@@ -37,7 +37,7 @@ inherits(Jar, EventEmitter)
  * are specified, the first is considered to be the section name.
  * @param {string} sectionNameOrEntryName
  * @param {string=} entryName
- * @return {string}
+ * @return {string?}
  */
 Jar.prototype.valueForManifestEntry = function (sectionNameOrEntryName, entryName) {
     var sectionName = null
@@ -51,10 +51,11 @@ Jar.prototype.valueForManifestEntry = function (sectionNameOrEntryName, entryNam
 
     if (sectionName === null) {
         // No section name specified, so use the main section.
-        return this._manifest["main"][entryName]
+        return this._manifest["main"][entryName] || null
     }
     else {
-        return this._manifest["sections"][sectionName][entryName]
+        if (! this._manifest["sections"][sectionName]) return null
+        return this._manifest["sections"][sectionName][entryName] || null
     }
 }
 

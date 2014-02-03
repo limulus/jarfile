@@ -36,27 +36,28 @@ describe("Jar", function () {
     describe("prototype.valueForManifestEntry", function () {
         var jar
 
-        beforeEach(function () {
+        beforeEach(function (done) {
             sinon.stub(Jar, "_readJarFile").yieldsAsync(null, manifestContents)
             jar = new Jar("foo.bar")
+            jar.on("ready", function () { done() })
         })
 
         afterEach(function () {
             Jar._readJarFile.restore()
         })
 
-        it("should return entry values from the main section", function (done) {
-            jar.on("ready", function () {
-                assert.equal(jar.valueForManifestEntry("Main-Class"), "net.desert.hello.Hello")
-                done()
-            })
+        it("should return entry values from the main section", function () {
+            assert.equal(jar.valueForManifestEntry("Main-Class"), "net.desert.hello.Hello")
         })
 
-        it("should return entry values from other sections", function (done) {
-            jar.on("ready", function () {
-                assert.equal(jar.valueForManifestEntry("foo", "Bar"), "baz")
-                done()
-            })
+        it("should return entry values from other sections", function () {
+            assert.equal(jar.valueForManifestEntry("foo", "Bar"), "baz")
+        })
+
+        it("should return null for non-existent entries", function () {
+            assert.strictEqual(jar.valueForManifestEntry("bogus"), null)
+            assert.strictEqual(jar.valueForManifestEntry("foo", "bogus"), null)
+            assert.strictEqual(jar.valueForManifestEntry("bogus", "bogus"), null)
         })
     })
 })
