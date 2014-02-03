@@ -2,6 +2,7 @@
 
 var Jar = require("../src/Jar.js")
   , assert = require("assert")
+  , sinon = require("sinon")
 
 describe("Jar", function () {
     describe("_parseManifest", function () {
@@ -21,6 +22,41 @@ describe("Jar", function () {
             var mf = Jar._parseManifest(manifestContents)
             assert.strictEqual(mf["main"]["Manifest-Version"], "1.0")
             assert.strictEqual(mf["sections"]["foo"]["Bar"], "baz")
+        })
+    })
+
+    it("should emit an error event if no such file exists", function (done) {
+        var jar = new Jar("bogus/path.jar")
+        jar.on("error", function (err) {
+            assert.ok(err)
+            done()
+        })
+    })
+
+    describe("prototype.valueForManifestEntry", function () {
+        var jar
+
+        beforeEach(function () {
+            sinon.stub(Jar, "_readJarFile").yieldsAsync(null, manifestContents)
+            jar = new Jar("foo.bar")
+        })
+
+        afterEach(function () {
+            Jar._readJarFile.restore()
+        })
+
+        it("should return entry values from the main section", function (done) {
+            jar.on("ready", function () {
+                assert.equal(jar.valueForManifestEntry("Main-Class"), "net.desert.hello.Hello")
+                done()
+            })
+        })
+
+        it("should return entry values from other sections", function (done) {
+            jar.on("ready", function () {
+                assert.equal(jar.valueForManifestEntry("foo", "Bar"), "baz")
+                done()
+            })
         })
     })
 })

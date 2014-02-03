@@ -5,16 +5,69 @@ var archive = require("ls-archive")
   , EventEmitter = require("events").EventEmitter
 
 /**
- * A jar file. 
+ * Information about a jar file.
  * @constructor
  * @param {string} jarPath
  */
 var Jar = module.exports = function (jarPath) {
     EventEmitter.call(this)
-    setImmediate(function () {this.emit("ready")}.bind(this))
+
+    /**
+     * @private
+     * @type {string}
+     */
+    this._jarPath = jarPath
+
+    /**
+     * @private
+     * @type {Object.<string,string>}
+     */
+    this._manifest = null
+
+    Jar._readJarFile(jarPath, "META-INF/MANIFEST.MF", function (err, manifestData) {
+        if (err) return this.emit("error", err)
+        this._manifest = Jar._parseManifest(manifestData)
+        this.emit("ready", this)
+    }.bind(this))
 }
 inherits(Jar, EventEmitter)
 
+/**
+ * Returns the value for the given entry in the manifest. If two arguments
+ * are specified, the first is considered to be the section name.
+ * @param {string} sectionNameOrEntryName
+ * @param {string=} entryName
+ * @return {string}
+ */
+Jar.prototype.valueForManifestEntry = function (sectionNameOrEntryName, entryName) {
+    var sectionName = null
+
+    if (arguments.length >= 2) {
+        sectionName = sectionNameOrEntryName
+    }
+    else {
+        entryName = sectionNameOrEntryName
+    }
+
+    if (sectionName === null) {
+        // No section name specified, so use the main section.
+        return this._manifest["main"][entryName]
+    }
+    else {
+        return this._manifest["sections"][sectionName][entryName]
+    }
+}
+
+/**
+ * Dependency injection point for ls-archive readFile function.
+ * @private
+ * @param {string} jarPath
+ * @param {string} archivedFilePath
+ * @param {function(Error?, string)} cb
+ */
+Jar._readJarFile = function (jarPath, archivedFilePath, cb) {
+    archive.readFile(jarPath, archivedFilePath, cb)
+}
 
 /**
  * @private

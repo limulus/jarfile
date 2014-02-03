@@ -23,13 +23,24 @@ before(function (done) {
     makeHelloJarFile(done)
 })
 
-describe("fetchJarAtPath", function () {
-    it("should return a cached jar on repeated calls", function (done) {
-        jarfile.fetchJarAtPath(helloJarPath, function (err, helloJar1) {
-            assert.ifError(err)
-            jarfile.fetchJarAtPath(helloJarPath, function (err, helloJar2) {
+describe("jarfile", function () {
+    describe("fetchJarAtPath", function () {
+        it("should return a cached jar on repeated calls", function (done) {
+            jarfile.fetchJarAtPath(helloJarPath, function (err, helloJar1) {
                 assert.ifError(err)
-                assert.strictEqual(helloJar1, helloJar2)
+                jarfile.fetchJarAtPath(helloJarPath, function (err, helloJar2) {
+                    assert.ifError(err)
+                    assert.strictEqual(helloJar1, helloJar2)
+                    done()
+                })
+            })
+        })
+    })
+    
+    describe("Jar.prototype.valueForManifestEntry", function () {
+        it("should be able to read an entry from the jar file's manifest file", function (done) {
+            jarfile.fetchJarAtPath(helloJarPath, function (err, helloJar) {
+                assert.equal(helloJar.valueForManifestEntry("Main-Class"), "net.desert.hello.Hello")
                 done()
             })
         })
