@@ -35,6 +35,13 @@ describe("jarfile", function () {
                 })
             })
         })
+
+        it("should return an error to the callback if the jar file does not exist", function (done) {
+            jarfile.fetchJarAtPath("bogus/path.jar", function (err) {
+                assert(err)
+                done()
+            })
+        })
     })
     
     describe("Jar.prototype.valueForManifestEntry", function () {

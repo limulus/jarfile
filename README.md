@@ -45,6 +45,8 @@ Reads information from the jar file at the given path, and passes the following 
   * An error if there was an error reading the jar file or its manifest.
   * A `Jar` object. See the methods below for what to do with this object.
 
+Note that this function caches `Jar` objects and doesn’t make any attempts to ensure the underlying file has not changed.
+
 
 ### Jar.prototype.valueForManifestEntry([sectionName], entryName)
 

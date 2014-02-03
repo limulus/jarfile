@@ -18,8 +18,13 @@ module.exports.fetchJarAtPath = function (jarPath, cb) {
     if (_cache[jarPath]) return cb(null, _cache[jarPath])
 
     var jar = new Jar(jarPath)
+
     jar.on("ready", function () {
         _cache[jarPath] = jar
         return cb(null, jar)
+    })
+
+    jar.on("error", function (err) {
+        return cb(err)
     })
 }
