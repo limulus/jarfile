@@ -13,6 +13,16 @@ describe("Jar", function () {
         })
     })
 
+    it("should emit an error event if the manifest contains an error", function (done) {
+        sinon.stub(Jar, "_readJarFile").yieldsAsync(null, "~bogus manifest content~")
+        var jar = new Jar("foo.jar")
+        jar.on("error", function (err) {
+            assert.ok(err)
+            done()
+        })
+        Jar._readJarFile.restore()
+    })
+
     describe("_parseManifest", function () {
         it("should throw an error when it hits an invalid line", function () {
             assert.throws(function () {

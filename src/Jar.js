@@ -26,7 +26,14 @@ var Jar = module.exports = function (jarPath) {
 
     Jar._readJarFile(jarPath, "META-INF/MANIFEST.MF", function (err, manifestData) {
         if (err) return this.emit("error", err)
-        this._manifest = Jar._parseManifest(manifestData)
+
+        try {
+            this._manifest = Jar._parseManifest(manifestData)
+        }
+        catch (e) {
+            this.emit("error", e)
+        }
+
         this.emit("ready", this)
     }.bind(this))
 }
