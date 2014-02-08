@@ -5,6 +5,14 @@ var Jar = require("../src/Jar.js")
   , sinon = require("sinon")
 
 describe("Jar", function () {
+    it("should emit an error event if no such file exists", function (done) {
+        var jar = new Jar("bogus/path.jar")
+        jar.on("error", function (err) {
+            assert.ok(err)
+            done()
+        })
+    })
+
     describe("_parseManifest", function () {
         it("should throw an error when it hits an invalid line", function () {
             assert.throws(function () {
@@ -22,14 +30,6 @@ describe("Jar", function () {
             var mf = Jar._parseManifest(manifestContents)
             assert.strictEqual(mf["main"]["Manifest-Version"], "1.0")
             assert.strictEqual(mf["sections"]["foo"]["Bar"], "baz")
-        })
-    })
-
-    it("should emit an error event if no such file exists", function (done) {
-        var jar = new Jar("bogus/path.jar")
-        jar.on("error", function (err) {
-            assert.ok(err)
-            done()
         })
     })
 
