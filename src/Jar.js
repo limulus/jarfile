@@ -88,6 +88,7 @@ Jar._parseManifest = function (manifest) {
     var expectingSectionStart = false
       , currentSection = null
 
+    manifest = manifest.toString("utf8")
     manifest.split(/(?:\r\n|\r|\n)/).forEach(function (line, i) {
         // Watch for blank lines, they mean we're starting a new section
         if (line === "") {

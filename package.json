@@ -28,6 +28,6 @@
     "sinon": "^1.8.1"
   },
   "dependencies": {
-    "ls-archive": "^0.10.0"
+    "ls-archive": "^1.0.2"
   }
 }
