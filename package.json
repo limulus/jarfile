@@ -1,6 +1,6 @@
 {
   "name": "jarfile",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Get information about a jar file",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DesertNet/jarfile.git"
+    "url": "https://github.com/desertnet/jarfile.git"
   },
   "keywords": [
     "jar",
@@ -20,9 +20,9 @@
   "author": "Eric McCarthy <eric@limulus.net> (http://www.limulus.net/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DesertNet/jarfile/issues"
+    "url": "https://github.com/desertnet/jarfile/issues"
   },
-  "homepage": "https://github.com/DesertNet/jarfile",
+  "homepage": "https://github.com/desertnet/jarfile",
   "devDependencies": {
     "mocha": "^1.17.1",
     "sinon": "^1.8.1"
