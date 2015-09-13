@@ -6,8 +6,8 @@ var jarfile = require("../index.js")
   , fs = require("fs")
   , assert = require("assert")
 
-var helloBuildDir = path.resolve(__dirname + "/../support/hello")
-  , helloJarPath = path.resolve(__dirname + "/../support/hello/hello.jar")
+var helloBuildDir = path.resolve(__dirname, "..", "support", "hello")
+  , helloJarPath = path.resolve(__dirname, "..", "support", "hello", "hello.jar")
 
 var makeHelloJarFile = function (cb) {
     spawn("make", ["-C", helloBuildDir])
@@ -39,13 +39,13 @@ describe("jarfile", function () {
         })
 
         it("should return an error to the callback if the jar file does not exist", function (done) {
-            jarfile.fetchJarAtPath("bogus/path.jar", function (err) {
+            jarfile.fetchJarAtPath(path.join("bogus", "path.jar"), function (err) {
                 assert(err)
                 done()
             })
         })
     })
-    
+
     describe("Jar.prototype.valueForManifestEntry", function () {
         it("should be able to read an entry from the jar file's manifest file", function (done) {
             jarfile.fetchJarAtPath(helloJarPath, function (err, helloJar) {

@@ -3,10 +3,11 @@
 var Jar = require("../src/Jar.js")
   , assert = require("assert")
   , sinon = require("sinon")
+  , path = require("path")
 
 describe("Jar", function () {
     it("should emit an error event if no such file exists", function (done) {
-        var jar = new Jar("bogus/path.jar")
+        var jar = new Jar(path.join("bogus", "path.jar"))
         jar.on("error", function (err) {
             assert.ok(err)
             done()
