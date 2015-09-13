@@ -3,6 +3,7 @@
 var archive = require("ls-archive")
   , inherits = require("util").inherits
   , EventEmitter = require("events").EventEmitter
+  , path = require("path")
 
 /**
  * Information about a jar file.
@@ -24,7 +25,7 @@ var Jar = module.exports = function (jarPath) {
      */
     this._manifest = null
 
-    Jar._readJarFile(jarPath, "META-INF/MANIFEST.MF", function (err, manifestData) {
+    Jar._readJarFile(jarPath, path.normalize("META-INF/MANIFEST.MF"), function (err, manifestData) {
         if (err) return this.emit("error", err)
 
         try {
