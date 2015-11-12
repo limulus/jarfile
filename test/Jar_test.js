@@ -41,6 +41,16 @@ describe("Jar", function () {
             var mf = Jar._parseManifest(manifestContents)
             assert.strictEqual(mf["main"]["Manifest-Version"], "1.0")
             assert.strictEqual(mf["sections"]["foo"]["Bar"], "baz")
+            // The Specification-Title entry comes from xalan: http://repo1.maven.org/maven2/xalan/serializer/2.7.1/serializer-2.7.1.jar
+            assert.strictEqual(mf["main"]["Specification-Title"], "XSL Transformations (XSLT), at http://www.w3.org/TR/xslt")
+            /*
+                The empty "Built-By" may or may not be legit however people do it. One reason is when building JAR files in maven
+                there is no way to remove default entries such as Built-By but you can blank them out.
+                E.G. http://stackoverflow.com/questions/25098307/hiding-manifest-entries-with-maven
+            */
+            assert.strictEqual(mf["main"]["Built-By"], "")
+            // The multi-line entry below is made up but theoretically possible
+            assert.strictEqual(mf["main"]["CrunchyTasty-Apples"], "XSL Transformations (XSLT), at http://www.w3.org/TR/xsltTransformationsTransformationsTransformationsTransformationsffTR/xsltTransformationsTransformationsTransformationsTransformationsaa")
         })
     })
 
@@ -73,4 +83,12 @@ describe("Jar", function () {
     })
 })
 
-var manifestContents = "Manifest-Version: 1.0\r\nCreated-By: 1.6.0_65 (Apple Inc.)\r\nMain-Class: net.desert.hello.Hello\r\n\r\nName: foo\r\nBar: baz\r\n"
+var manifestContents = [
+    "Manifest-Version: 1.0",
+    "Created-By: 1.6.0_65 (Apple Inc.)",
+    "Main-Class: net.desert.hello.Hello",
+    "Specification-Title: XSL Transformations (XSLT), at http://www.w3.org/\r\n TR/xslt",
+    "CrunchyTasty-Apples: XSL Transformations (XSLT), at http://www.w3.org/\r\n TR/xsltTransformationsTransformationsTransformationsTransformationsff\r\n TR/xsltTransformationsTransformationsTransformationsTransformationsaa",
+    "Built-By: ",
+    "\r\nName: foo",
+    "Bar: baz\r\n"].join("\r\n")

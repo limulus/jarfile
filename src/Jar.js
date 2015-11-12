@@ -87,10 +87,19 @@ Jar._parseManifest = function (manifest) {
     var result = {"main": {}, "sections": {}}
 
     var expectingSectionStart = false
+      , skip = 0
       , currentSection = null
 
     manifest = manifest.toString("utf8")
-    manifest.split(/(?:\r\n|\r|\n)/).forEach(function (line, i) {
+    var lines = manifest.split(/(?:\r\n|\r|\n)/);
+    lines.forEach(function (line, i) {
+        var entry;
+        // this line may have already been processed, if so skip it
+        if (skip) {
+            skip--
+            return
+        }
+
         // Watch for blank lines, they mean we're starting a new section
         if (line === "") {
             expectingSectionStart = true
@@ -98,11 +107,11 @@ Jar._parseManifest = function (manifest) {
         }
 
         // Extract the name and value from entry line
-        var pair = line.match(/^([a-z_-]+): (.+)$/i)
+        var pair = line.match(/^([a-z_-]+): (.*)$/i)
         if (!pair) {
             _throwManifestParseError("expected a valid entry", i, line)
         }
-        var name = pair[1], val = pair[2]
+        var name = pair[1], val = (pair[2] || "")
 
         // Handle section start
         if (expectingSectionStart && name !== "Name") {
@@ -119,10 +128,24 @@ Jar._parseManifest = function (manifest) {
             if (!result["sections"][currentSection]) {
                 result["sections"][currentSection] = {}
             }
-            result["sections"][currentSection][name] = val
+            entry = result["sections"][currentSection]
         }
         else {
-            result["main"][name] = val
+            entry = result["main"]
+        }
+        entry[name] = val
+        for (var j = i + 1; j < lines.length; j++) {
+            var byteLen = Buffer.byteLength(line, "utf8")
+            if (byteLen >= 70) {
+                line = lines[j]
+                if (line && line[0] === " ") {
+                    // continuation lines must start with a space
+                    entry[name] += line.substr(1)
+                    skip++
+                    continue
+                }
+            }
+            break
         }
     })
 
