@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/desertnet/jarfile.git"
+    "url": "https://github.com/limulus/jarfile.git"
   },
   "keywords": [
     "jar",
@@ -17,12 +17,12 @@
     "jvm",
     "unjar"
   ],
-  "author": "Eric McCarthy <eric@limulus.net> (http://www.limulus.net/)",
+  "author": "Eric McCarthy <eric@limulus.net> (https://www.limulus.net/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/desertnet/jarfile/issues"
+    "url": "https://github.com/limulus/jarfile/issues"
   },
-  "homepage": "https://github.com/desertnet/jarfile",
+  "homepage": "https://github.com/limulus/jarfile",
   "devDependencies": {
     "mocha": "^5.2.0",
     "sinon": "^7.0.0"

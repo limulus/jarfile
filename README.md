@@ -1,4 +1,4 @@
-jarfile   [![Build Status](https://travis-ci.org/desertnet/jarfile.png?branch=master)](https://travis-ci.org/desertnet/jarfile)
+jarfile   [![Build Status](https://travis-ci.org/limulus/jarfile.png?branch=master)](https://travis-ci.org/limulus/jarfile)
 =======
 
 A Node.js module for getting information about a jar file.
