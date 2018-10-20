@@ -21,7 +21,7 @@ var makeHelloJarFile = function (cb) {
 
 before(function (done) {
     // This can take a while on cloud CI systems with slow disks.
-    this.timeout(6000)
+    this.timeout(30000)
     makeHelloJarFile(done)
 })
 
