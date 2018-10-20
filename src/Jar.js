@@ -107,7 +107,7 @@ Jar._parseManifest = function (manifest) {
         }
 
         // Extract the name and value from entry line
-        var pair = line.match(/^([a-z_-]+): (.*)$/i)
+        var pair = line.match(/^([a-z0-9_-]+): (.*)$/i)
         if (!pair) {
             _throwManifestParseError("expected a valid entry", i, line)
         }

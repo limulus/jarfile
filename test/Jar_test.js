@@ -75,6 +75,11 @@ describe("Jar", function () {
             assert.equal(jar.valueForManifestEntry("foo", "Bar"), "baz")
         })
 
+        // See issue #5
+        it("should return entry values from entries whose names contain digits", function () {
+            assert.equal(jar.valueForManifestEntry("foo", "SHA-256-Digest"), "i68JQ1kocrRMFY73CPfLbGDIDnLKYDutWCyV2OVPs1M=")
+        })
+
         it("should return null for non-existent entries", function () {
             assert.strictEqual(jar.valueForManifestEntry("bogus"), null)
             assert.strictEqual(jar.valueForManifestEntry("foo", "bogus"), null)
@@ -91,4 +96,5 @@ var manifestContents = [
     "CrunchyTasty-Apples: XSL Transformations (XSLT), at http://www.w3.org/\r\n TR/xsltTransformationsTransformationsTransformationsTransformationsff\r\n TR/xsltTransformationsTransformationsTransformationsTransformationsaa",
     "Built-By: ",
     "\r\nName: foo",
+    "SHA-256-Digest: i68JQ1kocrRMFY73CPfLbGDIDnLKYDutWCyV2OVPs1M=",
     "Bar: baz\r\n"].join("\r\n")
