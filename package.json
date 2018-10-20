@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/desertnet/jarfile",
   "devDependencies": {
-    "mocha": "^2.1.0",
-    "sinon": "^1.8.1"
+    "mocha": "^5.2.0",
+    "sinon": "^7.0.0"
   },
   "dependencies": {
     "ls-archive": "^1.0.2"
